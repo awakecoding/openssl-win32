@@ -6,6 +6,8 @@
 $ssl=	"ssleay32";
 $crypto="libeay32";
 
+$msvc_static = 1;
+
 if ($fips && !$shlib)
 	{
 	$crypto="libeayfips32";
@@ -126,6 +128,7 @@ else	# Win32
     $base_cflags= " $mf_cflag";
     my $f = $shlib || $fips ?' /MD':' /MT';
     $lib_cflag='/Zl' if (!$shlib);	# remove /DEFAULTLIBs from static lib
+    if ($msvc_static) { $f = ' /MT'; }
     $opt_cflags=$f.' /Ox /O2 /Ob2';
     $dbg_cflags=$f.'d /Od -DDEBUG -D_DEBUG';
     $lflags="/nologo /subsystem:console /opt:ref";
